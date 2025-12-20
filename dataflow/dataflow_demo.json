@@ -1,0 +1,47 @@
+{
+	"name": "dataflow_demo",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "ls_for_source",
+						"type": "LinkedServiceReference"
+					},
+					"name": "source"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "filteringthedata"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Store as short,",
+				"          Date as date,",
+				"          Weekly_Sales as double,",
+				"          Holiday_Flag as boolean,",
+				"          Temperature as double,",
+				"          Fuel_Price as double,",
+				"          CPI as double,",
+				"          Unemployment as double",
+				"     ),",
+				"     useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'githubdata',",
+				"     fileName: 'Walmart_Sales (1).csv',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true) ~> source",
+				"source filter(Temperature >=50.00) ~> filteringthedata"
+			]
+		}
+	}
+}
